@@ -1,0 +1,18 @@
+.inform-card {
+    width: 340px;
+    height: 300px;
+    background-color: #FFF;
+    padding: 0 90px 40px 20px;
+    border-radius: 10px;
+    display: flex;
+
+    align-items: start  ;
+    flex-direction: column;
+
+    row-gap: 20px;
+}
+
+.tasks-card {
+    margin-right: 50px;
+    width: 100%;
+}

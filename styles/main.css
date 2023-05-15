@@ -1,0 +1,135 @@
+* {
+    font-size: 14px;
+}
+
+body {
+    background-color: #D3D3D3;
+    padding: 0;
+    margin: 0;
+}
+
+h1 {
+    font-size: 34px;
+}
+
+
+a {
+    text-decoration:none;
+    color: black;
+}
+
+textarea, select {
+    width: 100%;
+}
+
+.center-block {
+    margin-top: 10%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card {
+    width: fit-content;
+    background-color: #FFF;
+    padding: 0 90px 40px 90px;
+    border-radius: 10px;
+    display: flex;
+
+    align-items: center;
+    flex-direction: column;
+
+    row-gap: 20px;
+}
+
+
+.card-form {
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+
+    row-gap: 20px;
+}
+
+input {
+
+    border-radius: 5px;
+    height: 20px;
+
+    outline: 1px;
+    border:1px solid #888585;
+
+    width: 100%;
+}
+
+button {
+    height: 24px;
+
+    min-width: 180px;
+    width: 100%;
+}
+
+.header {
+    min-height: 45px;
+    background-color: #FFF;
+
+    padding: 0 10px 0 10px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-block {
+    margin-right: 15px;
+}
+
+.header-part {
+    display: flex;
+}
+
+.body-block {
+    margin: 10px;
+    display: flex;
+}
+
+.tasks-card {
+    width: fit-content;
+    background-color: #FFF;
+    padding: 0 90px 40px 20px;
+    border-radius: 10px;
+    display: flex;
+
+    align-items: start  ;
+    flex-direction: column;
+
+    row-gap: 20px;
+}
+
+
+.comment {
+    display: flex;
+}
+
+.icon {
+    min-width: 50px;
+    min-height: 50px;
+
+    max-width: 50px;
+    max-height: 50px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: #366133;
+    color: white;
+    font-size: 24px;
+    margin-right: 20px;
+}
+
+.comment-header {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
