@@ -20,6 +20,23 @@ if (!empty($_GET["taskID"])) {
 $connection = new DataBaseService();
 $connection -> startConnection();
 
+if (!empty($_GET["downloadFile"])) {
+    $fileName = $_GET["downloadFile"];
+    $pathToFile = 'D:\\testerForum\\' . $fileName;
+    if (file_exists($pathToFile)) {
+
+
+
+        header("Cache-Control: public");
+        header("Content-Description: File Transfer");
+        header("Content-Disposition: attachment; filename=$fileName");
+        header("Content-Type: application/zip");
+        header("Content-Transfer-Encoding: binary");
+
+        readfile($pathToFile);
+    }
+}
+
 if (!empty($_POST["newState"])) {
     $connection -> update("task", ["state" => $_POST["newState"]], ["id" => $taskID]);
 }
@@ -33,11 +50,26 @@ if (!empty($_POST["newProgrammer"])) {
 }
 
 if (!empty($_POST["comment"])) {
+
+    $attachID = null;
+
+    if (!empty($_FILES['file'])) {
+        $uploaddir = 'D:\\testerForum\\';
+
+        $attachID = uniqid() . basename($_FILES['file']['name']);
+
+        $uploadfile = $uploaddir . $attachID;
+        move_uploaded_file($_FILES['file']['tmp_name'], $uploadfile);
+    }
+
+
+
     $connection -> insert("comment",
         [
             "userID" => $_SESSION["user"]["id"],
             "text" => $_POST["comment"],
-            "taskID" => $taskID
+            "taskID" => $taskID,
+            "attachID" => $attachID
         ]);
 
     header("Location: /pages/task/view.php?taskID=$taskID");
@@ -68,7 +100,6 @@ $otherProgrammers = array_filter($programmers, function ($programmer) use ($curr
 });
 
 $comments = $connection -> findAllByParam("comment", "taskID", $taskID);
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -116,6 +147,14 @@ $comments = $connection -> findAllByParam("comment", "taskID", $taskID);
                         <div>
                             <?php echo $comment["text"]; ?>
                         </div>
+
+                        <?php if ($comment['attachID'] != "" && $comment != null) { ?>
+                        <form method="GET">
+                            <input type="hidden" name="downloadFile" value="<?php echo $comment['attachID']?>">
+                            <input type="hidden" value="<?php echo $taskID ?>" name="taskID">
+                            <button type="submit">Скачать вложение</button>
+                        </form>
+                        <?php } ?>
                     </div>
 
 
@@ -125,9 +164,12 @@ $comments = $connection -> findAllByParam("comment", "taskID", $taskID);
 
             Оставьте комментарий:
 
-            <form method="POST">
-                <textarea style="min-width: 450px;" name="comment">
+            <form method="POST" enctype="multipart/form-data">
+                <textarea style="min-width: 450px; margin-bottom: 15px;" name="comment">
                 </textarea>
+
+
+                <input type="file" name="file" style="margin-bottom: 15px;">
 
                 <button type="submit" style="width: 100px;">Отправить</button>
 
@@ -138,8 +180,6 @@ $comments = $connection -> findAllByParam("comment", "taskID", $taskID);
         <div class="inform-card">
 
             <h1>О задаче</h1>
-
-            <li>Статус: <?php echo $type["description"]; ?></li>
 
             <li>
                 Статус:
